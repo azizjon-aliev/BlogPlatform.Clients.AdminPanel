@@ -1,0 +1,22 @@
+<MudDialog>
+    <DialogContent>
+        Вы действително хотите удалить ?
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Нет</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Да</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

@@ -1,0 +1,25 @@
+﻿services:
+#  admin.panel:
+#    image: ghcr.io/azizjon-aliev/blog-platform.clients.admin-panel:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+  
+  content.api:
+    image: ghcr.io/azizjon-aliev/blog-platform.services.content:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseSettings__ConnectionString=Host=content.db;Port=5432;Database=BlogPlatformContentDb;Username=root;Password=root
+    ports:
+      - '8000:80'
+    depends_on:
+      - content.db
+
+  content.db:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+      POSTGRES_DB: 'BlogPlatformContentDb'
