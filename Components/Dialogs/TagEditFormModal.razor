@@ -4,15 +4,15 @@
     <DialogContent>
         <MudTextField 
             T="string" 
-            @bind-Value="@Category.Name" 
-            Label="Названия"
+            @bind-Value="@Tag.Name" 
+            Label="Название"
             Required="true"
             RequiredError="Название обезятелно для заполнения"
             ></MudTextField>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Отмена</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Изменить</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">@SubmitBtnText</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -24,8 +24,9 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
-    [Parameter] public CategoryDto Category { get; set; } = new();
+    [Parameter] public TagDto Tag { get; set; } = new();
+    [Parameter] public string SubmitBtnText { get; set; } = null!;
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(Category));
+    void Submit() => MudDialog.Close(DialogResult.Ok(Tag));
     void Cancel() => MudDialog.Cancel();
 }

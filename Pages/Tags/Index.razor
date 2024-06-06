@@ -1,17 +1,17 @@
-@page "/categories"
+@page "/tags"
 
-<PageTitle>Категории</PageTitle>
+<PageTitle>Теги</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h1>Категории</h1>
+        <h1>Теги</h1>
     </div>
     <div>
         <MudFab Color="Color.Info" StartIcon="@Icons.Material.Filled.Add" @onclick="HandleClickAddItemButton" Label="Добавить" />
     </div>
 </div>
 
-@if (_categories == null)
+@if (_tags == null)
 {
     <p>
         <em>Загрузка...</em>
@@ -29,16 +29,16 @@ else
         </tr>
         </thead>
         <tbody>
-        @for (var i = 0; i < _categories.Count; i++)
+        @for (var i = 0; i < _tags.Count; i++)
         {
-            var category = _categories[i];
+            var tag = _tags[i];
             <tr>
                 <td>@(i + 1)</td>
-                <td>@category.Name</td>
-                <td>@category.CreatedAt.ToString("dd.MM.yyyy")</td>
+                <td>@tag.Name</td>
+                <td>@tag.CreatedAt.ToString("dd.MM.yyyy")</td>
                 <td>
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" @onclick="() => HandleClickEditItemButton(category)">Редактировать</MudButton>
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="() => HandleClickRemoveItemButton(category.Id)">Удалить</MudButton>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" @onclick="() => HandleClickEditItemButton(tag)">Редактировать</MudButton>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="() => HandleClickRemoveItemButton(tag.Id)">Удалить</MudButton>
                 </td>
             </tr>
         }

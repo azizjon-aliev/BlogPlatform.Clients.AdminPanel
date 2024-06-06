@@ -1,0 +1,32 @@
+@using BlogPlatform.Clients.AdminPanel.Contracts
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField 
+            T="string" 
+            @bind-Value="@Category.Name" 
+            Label="Название"
+            Required="true"
+            RequiredError="Название обезятелно для заполнения"
+            ></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">@SubmitBtnText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public CategoryDto Category { get; set; } = new();
+    [Parameter] public string SubmitBtnText { get; set; } = null!;
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(Category));
+    void Cancel() => MudDialog.Cancel();
+}
