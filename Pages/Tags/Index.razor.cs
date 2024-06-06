@@ -4,25 +4,24 @@ using BlogPlatform.Clients.AdminPanel.Components.Dialogs;
 using BlogPlatform.Clients.AdminPanel.Contracts;
 using MudBlazor;
 
-namespace BlogPlatform.Clients.AdminPanel.Pages.Categories;
+namespace BlogPlatform.Clients.AdminPanel.Pages.Tags;
 
 public partial class Index : ComponentBase
 {
     [Inject] private HttpClient HttpClient { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
     [Inject] private IDialogService DialogService { get; set; } = null!;
 
-    private List<CategoryDto>? _categories;
+    private List<TagDto>? _tags;
 
     protected override async Task OnInitializedAsync()
     {
-        _categories = await HttpClient.GetFromJsonAsync<List<CategoryDto>>("api/v1/Categories");
+        _tags = await HttpClient.GetFromJsonAsync<List<TagDto>>("api/v1/Tags");
     }
 
     private async Task HandleClickAddItemButton()
     {
-        var category = new CategoryDto();
+        var tag = new TagDto();
         
         var options = new DialogOptions
         {
@@ -34,11 +33,11 @@ public partial class Index : ComponentBase
         };
         var parameters = new DialogParameters
         {
-            ["Category"] = category,
+            ["Tag"] = tag,
             ["SubmitBtnText"] = "Добавить",
         };
-        var dialog = await DialogService.ShowAsync<CategoryEditFormModal>(
-            title: "Добавить новую категорию",
+        var dialog = await DialogService.ShowAsync<TagEditFormModal>(
+            title: "Добавить новый тег",
             options: options,
             parameters: parameters);
         var result = await dialog.Result;
@@ -46,7 +45,7 @@ public partial class Index : ComponentBase
 
         if (!result.Canceled)
         {
-            var response = await HttpClient.PostAsJsonAsync($"api/v1/Categories/", category);
+            var response = await HttpClient.PostAsJsonAsync($"api/v1/Tags/", tag);
             if (response.IsSuccessStatusCode)
             {
                 await OnInitializedAsync();
@@ -54,7 +53,7 @@ public partial class Index : ComponentBase
         }
     }
 
-    private async Task HandleClickEditItemButton(CategoryDto category)
+    private async Task HandleClickEditItemButton(TagDto tag)
     {
         var options = new DialogOptions
         {
@@ -66,12 +65,11 @@ public partial class Index : ComponentBase
         };
         var parameters = new DialogParameters
         {
-            ["Category"] = category,
+            ["Tag"] = tag,
             ["SubmitBtnText"] = "Сохранить",
-            ["ModelName"] = "категорие"
         };
-        var dialog = await DialogService.ShowAsync<CategoryEditFormModal>(
-            title: "Редактировать категория",
+        var dialog = await DialogService.ShowAsync<TagEditFormModal>(
+            title: "Редактировать тег",
             options: options,
             parameters: parameters);
         var result = await dialog.Result;
@@ -79,7 +77,7 @@ public partial class Index : ComponentBase
 
         if (!result.Canceled)
         {
-            var response = await HttpClient.PutAsJsonAsync($"api/v1/Categories/{category.Id}", category);
+            var response = await HttpClient.PutAsJsonAsync($"api/v1/Tags/{tag.Id}", tag);
             if (response.IsSuccessStatusCode)
             {
                 await OnInitializedAsync();
@@ -102,7 +100,7 @@ public partial class Index : ComponentBase
 
         if (!result.Canceled)
         {
-            var response = await HttpClient.DeleteAsync($"api/v1/Categories/{id}");
+            var response = await HttpClient.DeleteAsync($"api/v1/Tags/{id}");
             if (response.IsSuccessStatusCode)
             {
                 await OnInitializedAsync();
